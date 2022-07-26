@@ -20,7 +20,7 @@ const App = () => {
   const [editTaskValue, setEditTaskValue] = React.useState("");
   const [validation, setValidation] = React.useState(false);
   const [filterTodos, setFilterTodos] = React.useState(tasks);
-  // const [filteredTodos, setFilteredTodos] = React.useState(tasks);
+  const [filteredTodos, setFilteredTodos] = React.useState("all");
 
   const [theme, setTheme] = React.useState(true);
 
@@ -68,23 +68,21 @@ const App = () => {
     setTasks(finishedTodo);
   };
 
-  const taskFilter = (statusTodo) => {
-    switch (statusTodo) {
-      case "active":
-        setFilterTodos(tasks.filter(({ complete }) => !complete));
-        break;
-      case "completed":
-        setFilterTodos(tasks.filter(({ complete }) => complete));
-        break;
-      case "all":
-        setFilterTodos(tasks);
-        break;
+  const taskFilter = (filteredTodos, filterTodos) => {
+    let result = [...filterTodos];
+
+    if (filteredTodos === "all") return result;
+
+    if (filteredTodos === "completed") {
+      return result.filter(({ complete }) => complete);
     }
+    return result.filter(({ complete }) => !complete);
   };
 
   React.useEffect(() => {
-    setFilterTodos(tasks);
-  }, [tasks]);
+    const filter = taskFilter(filteredTodos, tasks);
+    setFilterTodos(filter);
+  }, [filteredTodos, tasks]);
 
   const changeTheme = () => {
     setTheme(!theme);
@@ -104,7 +102,7 @@ const App = () => {
       />
       <label>
         Task filter
-        <select onChange={(e) => taskFilter(e.target.value)}>
+        <select onChange={(e) => setFilteredTodos(e.target.value)}>
           <option value="all">All</option>
           <option value={"completed"}>Completed</option>
           <option value={"active"}>Active</option>
