@@ -7,13 +7,15 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 import { GiSaveArrow } from "react-icons/gi";
 import { VscColorMode } from "react-icons/vsc";
+import { Task } from "./Types/toDoData";
 
-const App = () => {
+const App: React.FC = () => {
   const getRandomId = Math.random().toString(21).slice(-5);
-  const [tasks, setTasks] = React.useState(
-    localStorage.getItem("todos")
-      ? JSON.parse(localStorage.getItem("todos"))
-      : []
+  const [tasks, setTasks] = React.useState<Task[]>(
+    // localStorage.getItem("todos")
+    //   ? JSON.parse(localStorage.getItem("todos"))
+    //   : 
+      []
   );
   const [formInputValue, setFormInputValue] = React.useState("");
   const [editTaskById, setEditTaskById] = React.useState("");
@@ -58,7 +60,7 @@ const App = () => {
       return t;
     });
     setTasks(todo);
-    setEditTaskById(false);
+    setEditTaskById('');
   };
 
   const completedTask = (todoId) => {
@@ -121,7 +123,7 @@ const App = () => {
                   />
                 </div>
               ) : (
-                <li className={todo.complete ? "close" : null}>{todo.title}</li>
+                <li className={todo.complete ? "close" : ''}>{todo.title}</li>
               )}
 
               {editTaskById === todo.id ? (

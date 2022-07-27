@@ -20,7 +20,6 @@ const Form = (props) => {
           onChange={handleChange}
           type="text"
           placeholder="Task name..."
-          // required
         />
         <button>Add task</button>
       </form>
