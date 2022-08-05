@@ -3,7 +3,7 @@ import { Task } from "../Types/toDoData";
 
 interface IFilters {
   tasks: Task[];
-  setFilterTodos: (arg0: Task[]) => void;
+  setFilterTodos: (todo: Task[]) => void;
   filterTodos: Task[];
 }
 

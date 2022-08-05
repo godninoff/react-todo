@@ -1,22 +1,21 @@
 import React from "react";
 import { Task } from "../Types/toDoData";
 import TodoItem from "./TodoItem";
+import { useSelector } from "react-redux";
+import { selectTodos } from "./store";
 
 interface ITodoList {
-  tasks: Task[];
-  setTasks: (arg0: Task[]) => void;
   filterTodos: Task[];
 }
 
 const TodoList: React.FC<ITodoList> = (props) => {
-  const { tasks, setTasks, filterTodos } = props;
+  const { filterTodos } = props;
+  const todos = useSelector(selectTodos);
 
   return (
     <div className="todos-container">
-      {filterTodos.map((todo) => {
-        return (
-          <TodoItem key={todo.id} {...todo} tasks={tasks} setTasks={setTasks} />
-        );
+      {todos.map((todo) => {
+        return <TodoItem key={todo.id} {...todo} />;
       })}
     </div>
   );

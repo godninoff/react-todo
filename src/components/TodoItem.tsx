@@ -3,24 +3,21 @@ import Checkbox from "./Checkbox/Checkbox";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 import { GiSaveArrow } from "react-icons/gi";
-import { Task } from "../Types/toDoData";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTodos, removeTask, editTodo } from "../components/store";
 
-interface ITodoItem extends Task {
-  tasks: Task[];
-  setTasks: (todo: Task[]) => void;
+interface ITodoItem {
+  id: string;
+  title: string;
+  complete: boolean;
 }
 
-const TodoItem: React.FC<ITodoItem> = (props) => {
-  const { id, title, complete, tasks, setTasks } = props;
+const TodoItem: React.FC<ITodoItem> = ({ id, title, complete }) => {
+  const todos = useSelector(selectTodos);
+  const dispatch = useDispatch();
 
   const [editTaskById, setEditTaskById] = React.useState("");
-  const [editTaskValue, setEditTaskValue] = React.useState("");
-
-  const removeTask = (todoId: string): void => {
-    const removeTodo = [...tasks].filter((t) => t.id !== todoId);
-    localStorage.setItem("todos", JSON.stringify(removeTodo));
-    setTasks(removeTodo);
-  };
+  const [editTaskValue, setEditTaskValue] = React.useState(title);
 
   const editTasks = (
     id: React.SetStateAction<string>,
@@ -30,32 +27,29 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
     setEditTaskValue(title);
   };
 
-  const handleSubmit = (todoId: string) => {
-    const todo = [...tasks].map((t) => {
-      if (t.id === todoId) {
-        t.title = editTaskValue;
-      }
-      return t;
-    });
-    setTasks(todo);
+  const handleSubmit = (id: string) => {
+    // const todo = [...todos].map((t) => {
+    //   if (t.id === todoId) {
+    //     t.title = editTaskValue;
+    //   }
+    //   return t;
+    // });
+    // selectTodos(todo);
+    dispatch(editTodo(title));
     setEditTaskById("");
   };
+  console.log(title);
+  console.log(editTaskValue);
 
   return (
     <>
       <ul key={id}>
-        <Checkbox
-          tasks={tasks}
-          setTasks={setTasks}
-          id={id}
-          title={title}
-          complete={complete}
-        />
+        <Checkbox id={id} complete={complete} />
         {editTaskById === id ? (
           <div>
             <input
               onChange={(e) => setEditTaskValue(e.target.value)}
-              value={editTaskValue}
+              value={title}
             />
           </div>
         ) : (
@@ -69,7 +63,10 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
           </div>
         ) : (
           <div>
-            <AiTwotoneDelete className="icons" onClick={() => removeTask(id)} />
+            <AiTwotoneDelete
+              className="icons"
+              onClick={() => dispatch(removeTask(id))}
+            />
             <FiEdit2 className="icons" onClick={() => editTasks(id, title)} />
           </div>
         )}

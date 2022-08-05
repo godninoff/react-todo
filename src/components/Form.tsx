@@ -1,26 +1,19 @@
 import React from "react";
-import { Task } from "../Types/toDoData";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTodos, newTask } from "../components/store";
 
-interface IForm {
-  tasks: Task[];
-  setTasks: (todo: Task[]) => void;
-}
-
-const Form: React.FC<IForm> = (props) => {
-  const getRandomId = Math.random().toString(21).slice(-5);
+const Form: React.FC = () => {
   const [formInputValue, setFormInputValue] = React.useState("");
   const [validation, setValidation] = React.useState(false);
 
-  const newTask = (value: string) => {
-    const addTask = [
-      ...props.tasks,
-      { id: getRandomId, title: formInputValue, complete: false },
-    ];
-    localStorage.setItem("todos", JSON.stringify(addTask));
+  // const todos = useSelector(selectTodos);
+  const dispatch = useDispatch();
+
+  const handleAction = (value: string) => {
     if (formInputValue.length === 0) {
       setValidation(true);
     } else {
-      props.setTasks(addTask);
+      dispatch(newTask(formInputValue));
       setValidation(false);
     }
     setFormInputValue("");
@@ -33,7 +26,7 @@ const Form: React.FC<IForm> = (props) => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    newTask(formInputValue);
+    handleAction(formInputValue);
   };
 
   return (

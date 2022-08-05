@@ -2,19 +2,15 @@ import Form from "./Form";
 import React from "react";
 import "./App.css";
 import { VscColorMode } from "react-icons/vsc";
-import { Task } from "../Types/toDoData";
 import Filters from "./Filters";
 import TodoList from "./TodoList";
+import { useSelector } from "react-redux";
+import { selectTodos } from "./store";
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = React.useState<Task[]>(
-    // localStorage.getItem("todos")
-    //   ? JSON.parse(localStorage.getItem("todos"))
-    //   :
-    []
-  );
-
-  const [filterTodos, setFilterTodos] = React.useState(tasks);
+  const todos = useSelector(selectTodos);
+  const [tasks, setTasks] = React.useState([]);
+  const [filterTodos, setFilterTodos] = React.useState(todos);
   const [theme, setTheme] = React.useState(true);
 
   const changeTheme = () => {
@@ -27,13 +23,13 @@ const App: React.FC = () => {
         <VscColorMode onClick={() => changeTheme()} className="theme" />
         <h1>Things to do</h1>
       </header>
-      <Form tasks={tasks} setTasks={setTasks} />
+      <Form />
       <Filters
         filterTodos={filterTodos}
         setFilterTodos={setFilterTodos}
         tasks={tasks}
       />
-      <TodoList tasks={tasks} setTasks={setTasks} filterTodos={filterTodos} />
+      <TodoList filterTodos={filterTodos} />
     </div>
   );
 };
