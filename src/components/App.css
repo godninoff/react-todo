@@ -6,7 +6,7 @@
 }
 
 .App button {
-  background-color: #29ABE2;
+  background-color: #29abe2;
   color: #fff;
   border: none;
   border-radius: 0 3px 3px 0;
@@ -28,34 +28,46 @@
 
 .App ul {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   list-style: none;
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
-  text-align: center;
   color: black;
   margin: 0;
 }
 
 .icons {
-  color: #29ABE2;
+  color: #29abe2;
   cursor: pointer;
+}
+
+.item-button {
+  padding-top: 10px;
+  margin-right: 10px;
 }
 
 .todos-container {
   width: 550px;
   background-color: white;
-  margin: 50px auto 0 ;
+  margin: 50px auto 0;
   border-radius: 16px;
 }
 
 .add-todo-input {
-  padding: 5px;
-  padding-bottom: 6px;
+  padding: 5px 5px 6px 10px;
+}
+
+.open {
+  margin-left: 35px;
+  padding: 0;
 }
 
 .close {
   text-decoration: line-through;
+  margin-left: 35px;
+  padding: 0;
 }
 
 .theme {

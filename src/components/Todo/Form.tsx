@@ -1,12 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectTodos, newTask } from "../components/store";
+import { useDispatch } from "react-redux";
+import { newTask } from "../../store";
 
 const Form: React.FC = () => {
   const [formInputValue, setFormInputValue] = React.useState("");
   const [validation, setValidation] = React.useState(false);
 
-  // const todos = useSelector(selectTodos);
   const dispatch = useDispatch();
 
   const handleAction = (value: string) => {
@@ -19,7 +18,7 @@ const Form: React.FC = () => {
     setFormInputValue("");
   };
 
-  const handleChange = (e: { target: { value: any } }) => {
+  const handleChange = (e: { target: { value: string } }) => {
     setFormInputValue(e.target.value);
   };
 
@@ -31,7 +30,7 @@ const Form: React.FC = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: "10px" }}>
         <input
           className="add-todo-input"
           value={formInputValue}

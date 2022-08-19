@@ -1,4 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import filterReducer from "./filtersSlice";
 
 export interface Task {
   id: string;
@@ -36,17 +37,11 @@ export const todoSlice = createSlice({
         t.id === action.payload ? { ...t, complete: !t.complete } : { ...t }
       );
     },
-    editTodo: (state, action: PayloadAction<string>) => {
-      // state.todos = state.todos.map((t) => {
-      //   if (t.id === action.payload) {
-      //     t.title = action.payload;
-      //   }
-      //   return t;
-      // });
-
-      state.todos.map((item) =>
-        item.id === action.payload ? action.payload : item
-      );
+    editTodo: (state, action: PayloadAction<{ id: string; title: string }>) => {
+      state.todos = state.todos.map((t) => ({
+        ...t,
+        title: t.id === action.payload.id ? action.payload.title : t.title,
+      }));
     },
   },
 });
@@ -57,6 +52,7 @@ export const { newTask, removeTask, completedTask, editTodo } =
 const store = configureStore({
   reducer: {
     todos: todoSlice.reducer,
+    filters: filterReducer,
   },
 });
 

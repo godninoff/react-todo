@@ -1,7 +1,7 @@
 import React from "react";
 import "./Checkbox.css";
 import { useDispatch } from "react-redux";
-import { completedTask } from "../../components/store";
+import { completedTask } from "../../../../store";
 
 interface ICheckbox {
   id: string;
