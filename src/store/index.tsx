@@ -1,5 +1,17 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  createSlice,
+  PayloadAction,
+  combineReducers,
+} from "@reduxjs/toolkit";
 import filterReducer from "./filtersSlice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
 export interface Task {
   id: string;
@@ -49,12 +61,18 @@ export const todoSlice = createSlice({
 export const { newTask, removeTask, completedTask, editTodo } =
   todoSlice.actions;
 
-const store = configureStore({
-  reducer: {
-    todos: todoSlice.reducer,
-    filters: filterReducer,
-  },
+const rootReducer = combineReducers({
+  todos: todoSlice.reducer,
+  filters: filterReducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+});
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 

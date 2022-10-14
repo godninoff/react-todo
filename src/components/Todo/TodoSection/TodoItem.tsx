@@ -17,6 +17,7 @@ const TodoItem: React.FC<ITodoItem> = ({ id, title, complete }) => {
 
   const [editTaskById, setEditTaskById] = React.useState("");
   const [editTaskValue, setEditTaskValue] = React.useState(title);
+  const [editTaskValidation, setEditTaskValidation] = React.useState(false);
 
   const editTasks = (
     id: React.SetStateAction<string>,
@@ -27,7 +28,12 @@ const TodoItem: React.FC<ITodoItem> = ({ id, title, complete }) => {
   };
 
   const handleSubmit = (title: string) => {
-    dispatch(editTodo({ id, title }));
+    if (editTaskValue === "") {
+      setEditTaskValidation(true);
+    } else {
+      dispatch(editTodo({ id, title }));
+      setEditTaskValidation(false);
+    }
     setEditTaskById("");
   };
 
@@ -66,6 +72,11 @@ const TodoItem: React.FC<ITodoItem> = ({ id, title, complete }) => {
           </div>
         )}
       </ul>
+      {editTaskValidation && editTaskValue === "" ? (
+        <span style={{ color: "red", fontSize: "10px" }}>
+          task field cannot be empty
+        </span>
+      ) : null}
     </>
   );
 };
