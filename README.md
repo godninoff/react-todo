@@ -21,6 +21,8 @@
 - `npm i` - установить зависимости
 - `npm start` - для запуска
 
+### [Ссылка на приложение с кодом](https://codesandbox.io/p/github/godninoff/react-ts-redux-toolkit-todo-app/draft/delicate-bush?file=%2FREADME.md)
+
 ### Технологии:
 
 <p align="left"> 
